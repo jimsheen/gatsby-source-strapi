@@ -17,7 +17,7 @@ module.exports = async (entityDefinition, ctx) => {
     headers: addAuthorizationHeader({}, jwtToken),
   };
 
-  if (token && token === 'string') {
+  if (token && typeof token === 'string') {
     requestOptions.params.token = token;
   }
 
