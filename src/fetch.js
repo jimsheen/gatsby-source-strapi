@@ -2,7 +2,7 @@ import axios from 'axios';
 import { isObject, forEach, set, castArray, startsWith } from 'lodash';
 
 module.exports = async (entityDefinition, ctx) => {
-  const { apiURL, queryLimit, jwtToken, reporter } = ctx;
+  const { apiURL, queryLimit, jwtToken, reporter, token } = ctx;
 
   const { endpoint, api } = entityDefinition;
 
@@ -16,6 +16,10 @@ module.exports = async (entityDefinition, ctx) => {
     params: { _limit: queryLimit, ...api?.qs },
     headers: addAuthorizationHeader({}, jwtToken),
   };
+
+  if (!!token && token === 'string') {
+    requestOptions.params.token = token;
+  }
 
   reporter.info(
     `Starting to fetch data from Strapi - ${apiBase} with params ${JSON.stringify(
